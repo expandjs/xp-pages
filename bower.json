@@ -8,12 +8,20 @@
     "Maurizio Stefàno <m.stefano@expandjs.com>",
     "Robert Manolea <r.manolea@expandjs.com>"
   ],
+  "keywords": [
+    "web-components"
+  ],
   "main": [
     "xp-page.html",
     "xp-pages.html"
   ],
-  "keywords": [
-    "web-components"
+  "ignore": [
+    "**/.*",
+    "bin",
+    "index.js",
+    "lib",
+    "node_modules",
+    "package.json"
   ],
   "dependencies": {
     "expandjs": "ExpandJS/expandjs",
