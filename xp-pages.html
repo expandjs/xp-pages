@@ -1,0 +1,249 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+This component is used to manage pages.
+It must be used in conjunction with xp-page.
+
+@component xp-pages
+@description This component is used to manage pages
+@mixin xp-referral http://www.expandjs.com/components/xp-referral
+
+@dependency polymer Polymer/polymer#^0.5
+@dependency expandjs ExpandJS/expandjs
+@dependency xp-master-state ExpandJS/xp-master-state
+@dependency xp-referral ExpandJS/xp-referral
+@dependency xp-selected-state ExpandJS/xp-selected-state
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-master-state/xp-master-state.html">
+<link rel="import" href="../xp-referral/xp-referral.html">
+<link rel="import" href="../xp-selected-state/xp-selected-state.html">
+<link rel="import" href="xp-page.html">
+
+<polymer-element name="xp-pages" constructor="XPPagesElement" attributes="context defaultSelected indexAttribute onDemand pages priorSelected selected selection">
+
+    <template>
+        <style>
+            :host {
+                display: block;
+                overflow: hidden;
+
+                /* FIT */
+                bottom: 0;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        </style>
+        <template context="{{}}" is="xp-master-state" id="xpMasterState" slaves="{{pages}}" slaveTag="xp-page"></template>
+        <template context="{{context || self}}" is="xp-selected-state" id="xpSelectedState"
+                  defaultSelected="{{defaultSelected}}" indexAttribute="{{indexAttribute}}"
+                  items="{{pages}}" itemSelector="xp-page" priorSelected="{{priorSelected}}"
+                  selected="{{selected}}" selection="{{selection}}"></template>
+        <content id="content"></content>
+    </template>
+
+    <script>
+        XPComponent({
+
+            // MIXINS
+            mixins: ['xp-referral'],
+
+            /*********************************************************************/
+
+            /**
+             * Closes a page.
+             *
+             * @method close
+             * @param {number | string} index
+             * @returns {Element | undefined}
+             */
+            close: function (index) {
+
+                // Vars
+                var self       = this,
+                    page       = self.findPage(index),
+                    isSelected = self.isSelected(index);
+
+                // Checking
+                if (!page || !page.closable) { return; }
+
+                // Selecting
+                if (isSelected && self.pages.length > 1) { self[XP.isLast(page, self.pages) ? 'selectPrevious' : 'selectNext'](); }
+
+                // Closing
+                return self.$.xpMasterState.removeSlave(page);
+            },
+
+            /**
+             * Finds a page.
+             *
+             * @method findPage
+             * @param {number | string} index
+             * @returns {Element | undefined}
+             */
+            findPage: function (index) {
+                return this.$.xpSelectedState.findItem(index);
+            },
+
+            /**
+             * Checks if a page is selectable.
+             *
+             * @method isSelectable
+             * @param {number | string} index
+             * @returns {boolean}
+             */
+            isSelectable: function (index) {
+                return this.$.xpSelectedState.isSelectable(index);
+            },
+
+            /**
+             * Checks if a page is selected.
+             *
+             * @method isSelected
+             * @param {number | string} index
+             * @returns {boolean}
+             */
+            isSelected: function (index) {
+                return this.$.xpSelectedState.isSelected(index);
+            },
+
+            /**
+             * Opens a page.
+             *
+             * @method open
+             * @param {Object} [properties]
+             * @returns {Element}
+             */
+            open: function (properties) {
+                return this.$.xpMasterState.appendSlave(XP.assign({}, properties, {closable: true}));
+            },
+
+            /**
+             * Selects a page.
+             *
+             * @method select
+             * @param {number | string} index
+             * @returns {Element | undefined}
+             */
+            select: function (index) {
+                return this.$.xpSelectedState.select(index);
+            },
+
+            /**
+             * Selects the prior selected page.
+             *
+             * @method selectPriorSelected
+             * @returns {Element | undefined}
+             */
+            selectPriorSelected: function () {
+                return this.$.xpSelectedState.selectPriorSelected();
+            },
+
+            /**
+             * Selects the next page.
+             *
+             * @method selectNext
+             * @returns {Element | undefined}
+             */
+            selectNext: function () {
+                return this.$.xpSelectedState.selectNext();
+            },
+
+            /**
+             * Selects the previous page.
+             *
+             * @method selectPrevious
+             * @returns {Element | undefined}
+             */
+            selectPrevious: function () {
+                return this.$.xpSelectedState.selectPrevious();
+            },
+
+            /*********************************************************************/
+
+            // PUBLISH
+            publish: {
+
+                /**
+                 * The context element.
+                 *
+                 * @attribute context
+                 * @type Element
+                 */
+                context: {reflect: false, value: null},
+
+                /**
+                 * The index of the page selected by default.
+                 *
+                 * @attribute defaultSelected
+                 * @type number | string
+                 */
+                defaultSelected: {reflect: false, value: null},
+
+                /**
+                 * The attribute used as index.
+                 *
+                 * @attribute indexAttribute
+                 * @type string
+                 * @default ""
+                 */
+                indexAttribute: {reflect: true, value: ''},
+
+                /**
+                 * If set to true, the pages content will load only when active.
+                 *
+                 * @attribute onDemand
+                 * @type string
+                 * @default ""
+                 */
+                onDemand: {reflect: true, value: false},
+
+                /**
+                 * The slave pages.
+                 *
+                 * @attribute pages
+                 * @type Array
+                 * @readonly
+                 */
+                pages: {reflect: false, value: null},
+
+                /**
+                 * The prior selected page's index.
+                 *
+                 * @attribute priorSelected
+                 * @type string
+                 * @readonly
+                 */
+                priorSelected: {reflect: false, value: null},
+
+                /**
+                 * The selected page's index.
+                 *
+                 * @attribute routes
+                 * @type string
+                 */
+                selected: {reflect: false, value: null},
+
+                /**
+                 * The selected page.
+                 *
+                 * @attribute selection
+                 * @type Element
+                 * @readonly
+                 */
+                selection: {reflect: false, value: null}
+            }
+        });
+    </script>
+
+</polymer-element>

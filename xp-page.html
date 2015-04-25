@@ -1,0 +1,178 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+This component is used to display a page.
+It must be used in conjunction with xp-pages.
+
+@component xp-page
+@description This component is used to display a page
+
+@dependency polymer Polymer/polymer#^0.5
+@dependency expandjs ExpandJS/expandjs
+@dependency xp-slave-state ExpandJS/xp-slave-state
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-slave-state/xp-slave-state.html">
+
+<polymer-element name="xp-page" constructor="XPPageElement" attributes="active closable content context data injected">
+
+    <template>
+        <style>
+            :host {
+                display: block;
+                height: 100%;
+                overflow: auto;
+                position: relative;
+            }
+
+            :host(:not([active])) {
+                display: none !important;
+            }
+        </style>
+        <template context="{{}}" is="xp-slave-state" master="{{selector}}" masterTag="xp-pages"></template>
+        <div id="xpPageWrapper">
+            <content id="content"></content>
+            <div id="xpPageBody"></div>
+        </div>
+    </template>
+
+    <script>
+        XPComponent({
+
+            /**
+             * Refreshes the element.
+             *
+             * @method refresh
+             * @returns {Element}
+             * @private
+             */
+            refresh: function () {
+
+                // Vars
+                var self = this;
+
+                // Flushing
+                self.injected = null;
+                self.$.xpPageBody.innerHTML = '';
+
+                // Checking
+                if (!self.content || (self.selector && self.selector.onDemand && !self.active)) { return self; }
+
+                // Injecting
+                self.injected      = XP.appendChild(self.$.xpPageBody, XP.createElement(self.content));
+                self.injected.data = self.data;
+
+                return self;
+            },
+
+            /*********************************************************************/
+
+            // DELEGATES
+            eventDelegates: {
+                'xp-slave': 'handleSlave'
+            },
+
+            // OBSERVE
+            observe: {
+                'active content': 'refresh',
+                'injected.data': 'injectedDataObserver'
+            },
+
+            // PUBLISH
+            publish: {
+
+                /**
+                 * If set to true, the page is active.
+                 *
+                 * @attribute active
+                 * @type boolean
+                 * @default false
+                 */
+                active: {reflect: true, value: false},
+
+                /**
+                 * If set to true, the page can be closed.
+                 *
+                 * @attribute closable
+                 * @type boolean
+                 * @default false
+                 * @readonly
+                 */
+                closable: {reflect: true, value: false},
+
+                /**
+                 * The `tagName` of the page's element to be injected.
+                 *
+                 * @attribute content
+                 * @type string
+                 * @default ""
+                 */
+                content: {reflect: true, value: ''},
+
+                /**
+                 * The context element.
+                 *
+                 * @attribute context
+                 * @type Element
+                 */
+                context: {reflect: false, value: null},
+
+                /**
+                 * The element's data
+                 *
+                 * @attribute data
+                 * @type *
+                 */
+                data: {reflect: false, value: null},
+
+                /**
+                 * The page's injected element.
+                 *
+                 * @attribute injected
+                 * @type Element
+                 * @readonly
+                 */
+                injected: {reflect: false, value: null}
+            },
+
+            /**
+             * The master selector.
+             *
+             * @property selector
+             * @type Element
+             * @readonly
+             */
+            selector: null,
+
+            /*********************************************************************/
+
+            // OBSERVER
+            dataChanged: function (pre, post) {
+                if (arguments.length > 1 && this.injected) { this.injected.data = post; }
+            },
+
+            // OBSERVER
+            injectedDataObserver: function (pre, post) {
+                if (arguments.length > 1) { this.data = post; }
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            handleSlave: function (event) {
+                var self = this;
+                if (self === event.detail.firer || event.detail.selector !== 'xp-pages' || !XP.matches(event.detail.firer, 'xp-page')) { return; }
+                event.stopPropagation();
+            }
+        });
+    </script>
+
+</polymer-element>
