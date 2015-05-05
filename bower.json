@@ -1,7 +1,7 @@
 {
   "name": "xp-pages",
   "license": "BSD-3-Clause",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "A custom element used to manage a series of separate pages",
   "homepage": "http://www.expandjs.com/elements/xp-pages",
   "authors": [
