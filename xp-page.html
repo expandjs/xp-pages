@@ -70,16 +70,17 @@ It must be used in conjunction with xp-pages.
             refresh: function () {
 
                 // Vars
-                var self = this;
+                var self = this,
+                    root = self.shadowRoot;
 
                 // Removing
-                if (self.injected) { self.injected = XP.removeChild(self.shadowRoot, self.injected) && null; }
+                if (self.injected) { self.injected = root.removeChild(self.injected) && null; }
 
                 // Checking
                 if (!self.content || (self.selector && self.selector.onDemand && !self.active)) { return self; }
 
                 // Injecting
-                self.injected      = XP.appendChild(self.shadowRoot, XP.createElement(self.content));
+                self.injected      = root.appendChild(XP.createElement(self.content));
                 self.injected.data = self.data;
 
                 return self;
