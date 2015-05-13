@@ -38,11 +38,16 @@ It must be used in conjunction with xp-pages.
             :host(:not([active])) {
                 display: none !important;
             }
+
+            :host #xpPageWrapper,
+            :host #xpPageMain {
+                min-height: 100%;
+            }
         </style>
         <template context="{{}}" is="xp-slave-state" master="{{selector}}" masterTag="xp-pages"></template>
         <div id="xpPageWrapper">
             <content id="content"></content>
-            <div id="xpPageBody"></div>
+            <div id="xpPageMain"></div>
         </div>
     </template>
 
@@ -77,13 +82,13 @@ It must be used in conjunction with xp-pages.
 
                 // Flushing
                 self.injected = null;
-                self.$.xpPageBody.innerHTML = '';
+                self.$.xpPageMain.innerHTML = '';
 
                 // Checking
                 if (!self.content || (self.selector && self.selector.onDemand && !self.active)) { return self; }
 
                 // Injecting
-                self.injected      = XP.appendChild(self.$.xpPageBody, XP.createElement(self.content));
+                self.injected      = XP.appendChild(self.$.xpPageMain, XP.createElement(self.content));
                 self.injected.data = self.data;
 
                 return self;
