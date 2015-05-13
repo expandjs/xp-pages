@@ -40,14 +40,16 @@ It must be used in conjunction with xp-pages.
             }
 
             :host #xpPageWrapper,
-            :host #xpPageMain {
+            :host #xpPageContainer,
+            :host #xpPageBody {
+                height: 100%;
                 min-height: 100%;
             }
         </style>
         <template context="{{}}" is="xp-slave-state" master="{{selector}}" masterTag="xp-pages"></template>
         <div id="xpPageWrapper">
-            <content id="content"></content>
-            <div id="xpPageMain"></div>
+            <div id="xpPageContainer" hidden?="{{!injected}}"></div>
+            <div id="xpPageBody" hidden?="{{injected}}"><content id="content"></content></div>
         </div>
     </template>
 
@@ -82,13 +84,13 @@ It must be used in conjunction with xp-pages.
 
                 // Flushing
                 self.injected = null;
-                self.$.xpPageMain.innerHTML = '';
+                self.$.xpPageContainer.innerHTML = '';
 
                 // Checking
                 if (!self.content || (self.selector && self.selector.onDemand && !self.active)) { return self; }
 
                 // Injecting
-                self.injected      = XP.appendChild(self.$.xpPageMain, XP.createElement(self.content));
+                self.injected      = XP.appendChild(self.$.xpPageContainer, XP.createElement(self.content));
                 self.injected.data = self.data;
 
                 return self;
