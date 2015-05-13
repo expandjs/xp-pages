@@ -37,14 +37,8 @@ It must be used in conjunction with xp-page.
         <style>
             :host {
                 display: block;
+                height: 100%;
                 overflow: hidden;
-
-                /* FIT */
-                bottom: 0;
-                left: 0;
-                position: absolute;
-                right: 0;
-                top: 0;
             }
         </style>
         <template context="{{}}" is="xp-master-state" id="xpMasterState" slaves="{{pages}}" slaveTag="xp-page"></template>
