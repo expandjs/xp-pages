@@ -181,9 +181,7 @@ It must be used in conjunction with xp-pages.
 
             // HANDLER
             handleSlave: function (event) {
-                var self = this;
-                if (self === event.detail.firer || event.detail.selector !== 'xp-pages' || !XP.matches(event.detail.firer, 'xp-page')) { return; }
-                event.stopPropagation();
+                if (this !== event.detail.firer && event.detail.masterTag === 'xp-pages' && XP.matches(event.detail.firer, 'xp-page')) { event.stopPropagation(); }
             }
         });
     </script>

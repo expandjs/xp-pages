@@ -48,7 +48,7 @@ It must be used in conjunction with xp-page.
             }
         </style>
         <template context="{{}}" is="xp-master-state" id="xpMasterState" slaves="{{pages}}" slaveTag="xp-page"></template>
-        <template context="{{context || self}}" is="xp-selected-state" id="xpSelectedState"
+        <template context="{{self}}" is="xp-selected-state" id="xpSelectedState"
                   defaultSelected="{{defaultSelected}}" indexAttribute="{{indexAttribute}}"
                   items="{{pages}}" itemSelector="xp-page" priorSelected="{{priorSelected}}"
                   selected="{{selected}}" selection="{{selection}}"></template>
@@ -120,7 +120,7 @@ It must be used in conjunction with xp-page.
                 // Selecting
                 if (isSelected && self.pages.length > 1) { self[XP.isLast(page, self.pages) ? 'selectPrevious' : 'selectNext'](); }
 
-                // Closing
+                // Removing
                 return self.$.xpMasterState.removeSlave(page);
             },
 
@@ -133,6 +133,17 @@ It must be used in conjunction with xp-page.
              */
             findPage: function (index) {
                 return this.$.xpSelectedState.findItem(index);
+            },
+
+            /**
+             * Returns a page's index.
+             *
+             * @method indexOf
+             * @param {Element} page
+             * @returns {number | string | undefined}
+             */
+            indexOf: function (page) {
+                return XP.includes(this.pages, page) ? this.$.xpSelectedState.findIndex(page) : undefined;
             },
 
             /**
