@@ -3,7 +3,7 @@
   "license": "BSD-3-Clause",
   "version": "0.8.9",
   "description": "A custom element used to manage a series of separate pages",
-  "homepage": "http://www.expandjs.com/elements/xp-pages",
+  "homepage": "http://expandjs.com/elements/xp-pages",
   "authors": [
     "Giuliano Rullo <g.rullo@expandjs.com>",
     "Maurizio Stefàno <m.stefano@expandjs.com>",
