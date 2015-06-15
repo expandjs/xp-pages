@@ -23,11 +23,11 @@
     "**/.*"
   ],
   "dependencies": {
-    "expandjs": "ExpandJS/expandjs",
-    "xp-master-state": "ExpandJS/xp-master-state",
-    "xp-referral": "ExpandJS/xp-referral",
-    "xp-selected-state": "ExpandJS/xp-selected-state",
-    "xp-slave-state": "ExpandJS/xp-slave-state",
+    "expandjs": "ExpandJS/expandjs#alpha",
+    "xp-master-state": "ExpandJS/xp-master-state#alpha",
+    "xp-referral": "ExpandJS/xp-referral#alpha",
+    "xp-selected-state": "ExpandJS/xp-selected-state#alpha",
+    "xp-slave-state": "ExpandJS/xp-slave-state#alpha",
     "polymer": "Polymer/polymer#^0.5"
   }
 }
