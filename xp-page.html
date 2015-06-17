@@ -1,0 +1,221 @@
+<!--
+@license
+Copyright (c) 2015 The ExpandJS authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+This element is used to display a page.
+It must be used in conjunction with xp-pages.
+
+@element xp-page
+@description A custom element used to display a page
+@keywords web app, html5, expandjs, web-components
+@group navigation
+@homepage http://expandjs.com/elements/xp-page
+
+@dependency polymer Polymer/polymer
+@dependency expandjs ExpandJS/expandjs
+@dependency xp-slave-state ExpandJS/xp-slave-state
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-slave-state/xp-slave-state.html">
+
+<dom-module id="xp-page">
+
+    <style>
+        :host {
+            display: block;
+            height: 100%;
+            overflow: auto;
+            position: relative;
+        }
+
+        :host(:not([active])) {
+            display: none !important;
+        }
+    </style>
+
+    <template>
+        <xp-slave-state master="{{selector}}" master-tag="xp-pages"></xp-slave-state>
+        <content id="content"></content>
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'xp-page',
+
+            /*********************************************************************/
+
+            /**
+             * Refreshes the element.
+             *
+             * @method _refresh
+             * @returns {Element}
+             * @private
+             */
+            _refresh: function () {
+
+                // Vars
+                var self = this;
+
+                // Removing
+                if (self.injected) { self._setInjected(Polymer.dom(self.root).removeChild(self.injected) && null); }
+
+                // Checking
+                if (!self.content || (self.selector && self.selector.lazy && !self.active)) { return self; }
+
+                // Injecting
+                self._setInjected(Polymer.dom(self.root).appendChild(XP.createElement(self.content)));
+
+                // Setting
+                self.injected.data = self.data;
+
+                return self;
+            },
+
+            /*********************************************************************/
+
+            // LISTENERS
+            listeners: {
+                'xp-slave': '_handleSlave'
+            },
+
+            // OBSERVERS
+            observers: [
+                '_refresh(active, content)'
+            ],
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the page is active.
+                 *
+                 * @attribute active
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 */
+                active: {
+                    notify: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the page can be closed.
+                 *
+                 * @attribute closable
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 */
+                closable: {
+                    notify: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The `tagName` of the page's element to be injected.
+                 *
+                 * @attribute content
+                 * @type string
+                 * @notifies
+                 */
+                content: {
+                    notifies: true,
+                    reflectToAttribute: true,
+                    type: String,
+                    value: null
+                },
+
+                /**
+                 * The element's data
+                 *
+                 * @attribute data
+                 * @type *
+                 * @notifies
+                 */
+                data: {
+                    notify: true,
+                    observer: '_dataChanged',
+                    value: null
+                },
+
+                /**
+                 * The page's injected element.
+                 *
+                 * @attribute injected
+                 * @type Element
+                 * @notifies
+                 * @readonly
+                 */
+                injected: {
+                    notify: true,
+                    observer: '_injectedChanged',
+                    readOnly: true,
+                    value: null
+                },
+
+                /**
+                 * The master selector.
+                 *
+                 * @attribute selector
+                 * @type Element
+                 * @notifies
+                 */
+                selector: {
+                    notify: true,
+                    value: null
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _dataChanged: function (post) {
+                if (arguments.length > 1 && this.injected) { this.injected.data = post; }
+            },
+
+            // OBSERVER
+            _injectedChanged: function (post, pre) {
+
+                // Vars
+                var self = this;
+
+                // Checking
+                if (arguments.length < 2) { return; }
+
+                // Listening
+                if (pre) { self.unlisten(pre, 'data-changed', '_handleData'); }
+                if (post) { self.listen(post, 'data-changed', '_handleData'); }
+
+                // Handling
+                self._handleData();
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _handleData: function () {
+                this.data = (this.injected && this.injected.data) || null;
+            },
+
+            // HANDLER
+            _handleSlave: function (event) {
+                if (event.detail.firer !== this && event.detail.masterTag === 'xp-pages' && XP.matches(event.detail.firer, 'xp-page')) { event.stopPropagation(); }
+            }
+        });
+    </script>
+
+</dom-module>
