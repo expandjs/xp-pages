@@ -16,9 +16,9 @@ It must be used in conjunction with xp-pages.
 @group navigation
 @homepage http://expandjs.com/elements/xp-page
 
-@dependency polymer Polymer/polymer
-@dependency expandjs ExpandJS/expandjs
-@dependency xp-slave-state ExpandJS/xp-slave-state
+@dependency polymer Polymer/polymer#^1.0.4
+@dependency expandjs ExpandJS/expandjs#0.9.1
+@dependency xp-slave-state ExpandJS/xp-slave-state#0.9.1
 -->
 
 <link rel="import" href="../polymer/polymer.html">
@@ -41,7 +41,7 @@ It must be used in conjunction with xp-pages.
     </style>
 
     <template>
-        <xp-slave-state master="{{selector}}" master-tag="xp-pages"></xp-slave-state>
+        <template is="xp-slave-state" master="{{selector}}" master-tag="xp-pages"></template>
         <content id="content"></content>
     </template>
 
@@ -84,7 +84,7 @@ It must be used in conjunction with xp-pages.
 
             // LISTENERS
             listeners: {
-                'xp-slave': '_handleSlave'
+                'xp-slave-state': '_handleSlave'
             },
 
             // OBSERVERS

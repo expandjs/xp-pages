@@ -16,13 +16,13 @@ It must be used in conjunction with xp-page.
 @group navigation
 @homepage http://expandjs.com/elements/xp-pages
 
-@behavior xp-selected-behavior http://expandjs.com/elements/xp-selected-behavior
+@behavior xp-selected-behavior http://expandjs.com/elements/xp-selected-behavior#0.9.1
 
-@dependency polymer Polymer/polymer
-@dependency expandjs ExpandJS/expandjs
-@dependency iron-flex-layout PolymerElements/iron-flex-layout
-@dependency xp-master-state ExpandJS/xp-master-state
-@dependency xp-selected-behavior ExpandJS/xp-selected-behavior
+@dependency polymer Polymer/polymer#^1.0.4
+@dependency expandjs ExpandJS/expandjs#0.9.1
+@dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.2
+@dependency xp-master-state ExpandJS/xp-master-state#0.9.1
+@dependency xp-selected-behavior ExpandJS/xp-selected-behavior#0.9.1
 -->
 
 <link rel="import" href="../polymer/polymer.html">
@@ -43,7 +43,7 @@ It must be used in conjunction with xp-page.
     </style>
 
     <template>
-        <xp-master-state id="xpMasterState" slaves="{{items}}" slave-tag="xp-page"></xp-master-state>
+        <template is="xp-master-state" id="xpMasterState" slaves="{{items}}" slave-tag="xp-page"></template>
         <content id="content"></content>
     </template>
 
@@ -97,13 +97,22 @@ It must be used in conjunction with xp-page.
 
             /*********************************************************************/
 
-            // ATTRIBUTES
-            hostAttributes: {
-                'item-selector': 'xp-page'
-            },
-
             // PROPERTIES
             properties: {
+
+                /**
+                 * The selector used to recognize selectable items.
+                 * TODO Temporary webcomponents polyfill's fix for `hostAttributes`.
+                 *
+                 * @attribute item-selector
+                 * @type string
+                 * @default "xp-page"
+                 */
+                itemSelector: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'xp-page'
+                },
 
                 /**
                  * If set to true, the pages content will load only when active.
