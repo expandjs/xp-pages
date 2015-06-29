@@ -69,7 +69,7 @@ It must be used in conjunction with xp-pages.
                 if (self.injected) { self._setInjected(Polymer.dom(self.root).removeChild(self.injected) && null); }
 
                 // Checking
-                if (!self.content || (self.selector && self.selector.lazy && !self.active)) { return self; }
+                if (!self.content || !self.selector || (self.selector.lazy && !self.active)) { return self; }
 
                 // Injecting
                 self._setInjected(Polymer.dom(self.root).appendChild(XP.createElement(self.content)));
