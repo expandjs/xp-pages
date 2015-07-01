@@ -196,8 +196,8 @@ It must be used in conjunction with xp-pages.
             /*********************************************************************/
 
             // OBSERVER
-            _dataChanged: function (post) {
-                if (arguments.length > 1 && this.injected) { this.injected.data = post; }
+            _dataChanged: function () {
+                if (this.injected) { this.injected.data = this.data; }
             },
 
             // OBSERVER
@@ -209,19 +209,19 @@ It must be used in conjunction with xp-pages.
                 // Checking
                 if (arguments.length < 2) { return; }
 
+                // Setting
+                if (post) { post.data = self.data; }
+
                 // Listening
                 if (pre) { self.unlisten(pre, 'data-changed', '_handleData'); }
                 if (post) { self.listen(post, 'data-changed', '_handleData'); }
-
-                // Handling
-                self._handleData();
             },
 
             /*********************************************************************/
 
             // HANDLER
             _handleData: function () {
-                this.data = (this.injected && this.injected.data) || null;
+                if (this.injected) { this.data = this.injected.data; }
             },
 
             // HANDLER
