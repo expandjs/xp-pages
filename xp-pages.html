@@ -81,7 +81,7 @@ It must be used in conjunction with xp-page.
                 if (isSelected && self.items.length > 1) { self[XP.isLast(item, self.items) ? 'selectPrevious' : 'selectNext'](); }
 
                 // Removing
-                return self.$.xpMasterState.removeSlave(item);
+                return XP.removeChild(Polymer.dom(Polymer.dom(item).parentNode), item);
             },
 
             /**
@@ -92,7 +92,8 @@ It must be used in conjunction with xp-page.
              * @returns {Element}
              */
             open: function (properties) {
-                return this.$.xpMasterState.appendSlave(XP.assign({}, properties, {closable: true}));
+                XP.assertArgument(XP.isVoid(properties) || XP.isObject(properties), 1, 'Object');
+                return XP.appendChild(Polymer.dom(this), XP.createElement('xp-page', {properties: XP.assign({}, properties, {closable: true})}));
             },
 
             /*********************************************************************/
