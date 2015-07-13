@@ -40,6 +40,10 @@ It must be used in conjunction with xp-page.
             display: block;
             overflow: hidden;
         }
+
+        :host ::content > xp-page:not([active]) {
+            display: none !important;
+        }
     </style>
 
     <template>
