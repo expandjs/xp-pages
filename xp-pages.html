@@ -42,6 +42,11 @@ It must be used in conjunction with xp-page.
             overflow: hidden;
         }
 
+        :host ::content > xp-page {
+            height: 100%;
+            overflow: auto;
+        }
+
         :host ::content > xp-page:not([active]) {
             display: none !important;
         }
