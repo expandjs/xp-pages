@@ -59,19 +59,13 @@ It should be used in conjunction with xp-pages.
             _refresh: function () {
 
                 // Vars
-                var self = this;
-
-                // Removing
-                if (self.injected) { self._setInjected(Polymer.dom(self.root).removeChild(self.injected) && null); }
-
-                // Checking
-                if (!self.content || (self.lazy && !self.active)) { return self; }
+                var self       = this,
+                    removable  = self.injected && (!self.content || self.content.toUpperCase() !== self.injected.tagName || (self.lazy && !self.active)),
+                    injectable = self.content && (removable || !self.injected) && (self.active || !self.lazy);
 
                 // Injecting
-                self._setInjected(Polymer.dom(self.root).appendChild(XP.createElement(self.content)));
-
-                // Setting
-                self.injected.data = self.data;
+                if (removable) { Polymer.dom(self.root).removeChild(self.injected); }
+                if (injectable) { self._setInjected(Polymer.dom(self.root).appendChild(XP.createElement(self.content, {properties: {data: self.data}}))); }
 
                 return self;
             },
