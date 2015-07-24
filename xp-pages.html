@@ -17,13 +17,13 @@ It must be used in conjunction with xp-page.
 @group navigation
 @homepage http://expandjs.com/elements/xp-pages
 
-@behavior xp-selected-behavior http://expandjs.com/elements/xp-selected-behavior
+@behavior xp-selected-behavior /bower_components/xp-selected-behavior/xp-selected-behavior.html
 
 @dependency polymer Polymer/polymer#^1.0.0
-@dependency expandjs ExpandJS/expandjs#0.9.4
+@dependency expandjs ExpandJS/expandjs#0.9.5
 @dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.0
-@dependency xp-master-state ExpandJS/xp-master-state#0.9.4
-@dependency xp-selected-behavior ExpandJS/xp-selected-behavior#0.9.4
+@dependency xp-master-state ExpandJS/xp-master-state#0.9.5
+@dependency xp-selected-behavior ExpandJS/xp-selected-behavior#0.9.5
 -->
 
 <link rel="import" href="../polymer/polymer.html">
@@ -113,8 +113,6 @@ It must be used in conjunction with xp-page.
 
                 /**
                  * The selector used to recognize selectable items.
-                 *
-                 * TODO Temporary webcomponents polyfill's fix for `hostAttributes`.
                  *
                  * @attribute item-selector
                  * @type string
