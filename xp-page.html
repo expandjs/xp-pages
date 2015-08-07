@@ -18,14 +18,16 @@ It should be used in conjunction with xp-pages.
 @homepage http://expandjs.com/elements/xp-page
 @repository https://github.com/ExpandJS/xp-page
 
+@behavior xp-slave-behavior /bower_components/xp-slave-behavior/xp-slave-behavior.html
+
 @dependency polymer Polymer/polymer#^1.0.0
-@dependency expandjs ExpandJS/expandjs#0.9.5
-@dependency xp-slave-state ExpandJS/xp-slave-state#0.9.5
+@dependency expandjs ExpandJS/expandjs#0.9.6
+@dependency xp-slave-behavior ExpandJS/xp-slave-behavior#0.9.6
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
-<link rel="import" href="../xp-slave-state/xp-slave-state.html">
+<link rel="import" href="../xp-slave-behavior/xp-slave-behavior.html">
 
 <dom-module id="xp-page">
 
@@ -38,7 +40,6 @@ It should be used in conjunction with xp-pages.
     </style>
 
     <template>
-        <template is="xp-slave-state" master="{{selector}}" master-tag="xp-pages"></template>
         <content id="content"></content>
     </template>
 
@@ -47,6 +48,11 @@ It should be used in conjunction with xp-pages.
 
             // ELEMENT
             is: 'xp-page',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPSlaveBehavior
+            ],
 
             /*********************************************************************/
 
@@ -71,11 +77,22 @@ It should be used in conjunction with xp-pages.
                 return self;
             },
 
+            /**
+             * Returns the masters map.
+             *
+             * @method _setupMasters
+             * @returns {Object}
+             * @private
+             */
+            _setupMasters: function () {
+                return {selector: 'xp-pages'};
+            },
+
             /*********************************************************************/
 
             // LISTENERS
             listeners: {
-                'xp-slave-state': '_handleSlave'
+                'xp-slave': '_handleSlave'
             },
 
             // OBSERVERS
@@ -180,6 +197,7 @@ It should be used in conjunction with xp-pages.
                  */
                 selector: {
                     notify: true,
+                    readOnly: true,
                     value: null
                 }
             },
@@ -217,7 +235,7 @@ It should be used in conjunction with xp-pages.
 
             // HANDLER
             _handleSlave: function (event) {
-                if (event.detail.firer !== this && event.detail.masterTag === 'xp-pages' && XP.matches(event.detail.firer, 'xp-page')) { event.stopPropagation(); }
+                if (event.detail.firer !== this && event.detail.selector === 'xp-pages' && XP.matches(event.detail.firer, 'xp-page')) { event.stopPropagation(); }
             }
         });
     </script>

@@ -18,19 +18,20 @@ It must be used in conjunction with xp-page.
 @homepage http://expandjs.com/elements/xp-pages
 @repository https://github.com/ExpandJS/xp-pages
 
+@behavior xp-master-behavior /bower_components/xp-master-behavior/xp-master-behavior.html
 @behavior xp-selected-behavior /bower_components/xp-selected-behavior/xp-selected-behavior.html
 
 @dependency polymer Polymer/polymer#^1.0.0
-@dependency expandjs ExpandJS/expandjs#0.9.5
+@dependency expandjs ExpandJS/expandjs#0.9.6
 @dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.0
-@dependency xp-master-state ExpandJS/xp-master-state#0.9.5
-@dependency xp-selected-behavior ExpandJS/xp-selected-behavior#0.9.5
+@dependency xp-master-behavior ExpandJS/xp-master-behavior#0.9.6
+@dependency xp-selected-behavior ExpandJS/xp-selected-behavior#0.9.6
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../xp-master-state/xp-master-state.html">
+<link rel="import" href="../xp-master-behavior/xp-master-behavior.html">
 <link rel="import" href="../xp-selected-behavior/xp-selected-behavior.html">
 <link rel="import" href="xp-page.html">
 
@@ -54,7 +55,6 @@ It must be used in conjunction with xp-page.
     </style>
 
     <template>
-        <template is="xp-master-state" id="xpMasterState" slaves="{{items}}" slave-tag="xp-page"></template>
         <content id="content"></content>
     </template>
 
@@ -66,6 +66,7 @@ It must be used in conjunction with xp-page.
 
             // BEHAVIORS
             behaviors: [
+                Polymer.XPMasterBehavior,
                 Polymer.XPSelectedBehavior
             ],
 
@@ -109,6 +110,19 @@ It must be used in conjunction with xp-page.
 
             /*********************************************************************/
 
+            /**
+             * Returns the slaves map.
+             *
+             * @method _setupSlaves
+             * @returns {Object}
+             * @private
+             */
+            _setupSlaves: function () {
+                return {items: 'xp-page'};
+            },
+
+            /*********************************************************************/
+
             // PROPERTIES
             properties: {
 
@@ -123,6 +137,21 @@ It must be used in conjunction with xp-page.
                     reflectToAttribute: true,
                     type: String,
                     value: 'xp-page'
+                },
+
+                /**
+                 * The selectable items.
+                 *
+                 * @attribute items
+                 * @type Array
+                 * @notifies
+                 * @readonly
+                 */
+                items: {
+                    notify: true,
+                    readOnly: true,
+                    type: Array,
+                    value: function () { return []; }
                 }
             }
         });
