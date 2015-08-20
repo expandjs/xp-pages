@@ -2,6 +2,7 @@
   "name": "xp-pages",
   "license": "BSD-3-Clause",
   "version": "0.9.6",
+  "main": "xp-pages.html",
   "description": "A custom element used to manage a series of separate pages",
   "homepage": "http://expandjs.com/elements/xp-pages",
   "authors": [
@@ -14,10 +15,6 @@
     "html5",
     "expandjs",
     "web-components"
-  ],
-  "main": [
-    "xp-page.html",
-    "xp-pages.html"
   ],
   "ignore": [
     "**/.*"
