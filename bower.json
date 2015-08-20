@@ -1,7 +1,7 @@
 {
   "name": "xp-pages",
   "license": "BSD-3-Clause",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "main": "xp-pages.html",
   "description": "A custom element used to manage a series of separate pages",
   "homepage": "http://expandjs.com/elements/xp-pages",
@@ -20,10 +20,10 @@
     "**/.*"
   ],
   "dependencies": {
-    "expandjs": "ExpandJS/expandjs#0.9.6",
-    "xp-master-behavior": "ExpandJS/xp-master-behavior#0.9.6",
-    "xp-selected-behavior": "ExpandJS/xp-selected-behavior#0.9.6",
-    "xp-slave-behavior": "ExpandJS/xp-slave-behavior#0.9.6",
+    "expandjs": "ExpandJS/expandjs#0.9.7",
+    "xp-master-behavior": "ExpandJS/xp-master-behavior#0.9.7",
+    "xp-selected-behavior": "ExpandJS/xp-selected-behavior#0.9.7",
+    "xp-slave-behavior": "ExpandJS/xp-slave-behavior#0.9.7",
     "polymer": "Polymer/polymer#^1.0.0",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0"
   }
