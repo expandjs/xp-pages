@@ -37,25 +37,27 @@ It must be used in conjunction with xp-page.
 
 <dom-module id="xp-pages">
 
-    <style>
-        :host {
-            @apply(--layout-fit);
-            display: block;
-            overflow: hidden;
-        }
-
-        :host ::content > xp-page {
-            height: 100%;
-            overflow: auto;
-        }
-
-        :host ::content > xp-page:not([active]) {
-            display: none !important;
-        }
-    </style>
-
     <template>
+
+        <style>
+            :host {
+            @apply(--layout-fit);
+                display: block;
+                overflow: hidden;
+            }
+
+            :host ::content > xp-page {
+                height: 100%;
+                overflow: auto;
+            }
+
+            :host ::content > xp-page:not([active]) {
+                display: none !important;
+            }
+        </style>
+
         <content id="content"></content>
+
     </template>
 
     <script>
