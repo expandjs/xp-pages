@@ -24,7 +24,7 @@
     "xp-master-behavior": "ExpandJS/xp-master-behavior#0.9.8",
     "xp-selected-behavior": "ExpandJS/xp-selected-behavior#0.9.8",
     "xp-slave-behavior": "ExpandJS/xp-slave-behavior#0.9.8",
-    "polymer": "Polymer/polymer#^1.0.0",
+    "polymer": "Polymer/polymer#^1.1.0",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.0"
   }
 }
