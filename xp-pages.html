@@ -22,10 +22,10 @@ It must be used in conjunction with xp-page.
 @behavior xp-selected-behavior /bower_components/xp-selected-behavior/xp-selected-behavior.html
 
 @dependency polymer Polymer/polymer#^1.1.0
-@dependency expandjs ExpandJS/expandjs#0.9.9
+@dependency expandjs ExpandJS/expandjs#0.9.10
 @dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.0
-@dependency xp-master-behavior ExpandJS/xp-master-behavior#0.9.9
-@dependency xp-selected-behavior ExpandJS/xp-selected-behavior#0.9.9
+@dependency xp-master-behavior ExpandJS/xp-master-behavior#0.9.10
+@dependency xp-selected-behavior ExpandJS/xp-selected-behavior#0.9.10
 -->
 
 <link rel="import" href="../polymer/polymer.html">
@@ -83,19 +83,8 @@ It must be used in conjunction with xp-page.
              * @returns {Element}
              */
             close: function (index) {
-
-                // Vars
-                var self       = this,
-                    item       = self.findItem(index),
-                    isSelected = self.isSelected(item, true);
-
-                // Checking
+                var self = this, item = self.findItem(index);
                 if (!item || !item.closable) { return null; }
-
-                // Selecting
-                if (isSelected && self.items.length > 1) { self[XP.isLast(item, self.items) ? 'selectPrevious' : 'selectNext'](); }
-
-                // Removing
                 return XP.removeChild(Polymer.dom(Polymer.dom(item).parentNode), item);
             },
 
@@ -108,7 +97,8 @@ It must be used in conjunction with xp-page.
              */
             open: function (properties) {
                 XP.assertArgument(XP.isVoid(properties) || XP.isObject(properties), 1, 'Object');
-                return XP.appendChild(Polymer.dom(this), XP.createElement('xp-page', {properties: XP.assign({}, properties, {closable: true})}));
+                var self = this, item = XP.createElement('xp-page', {properties: XP.assign({}, properties, {closable: true})});
+                return XP.appendChild(Polymer.dom(self), item);
             },
 
             /*********************************************************************/
