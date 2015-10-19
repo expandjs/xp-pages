@@ -21,8 +21,8 @@ It should be used in conjunction with xp-pages.
 @behavior xp-slave-behavior /bower_components/xp-slave-behavior/xp-slave-behavior.html
 
 @dependency polymer Polymer/polymer#^1.1.0
-@dependency expandjs ExpandJS/expandjs#0.9.10
-@dependency xp-slave-behavior ExpandJS/xp-slave-behavior#0.9.10
+@dependency expandjs ExpandJS/expandjs#0.9.11
+@dependency xp-slave-behavior ExpandJS/xp-slave-behavior#0.9.11
 -->
 
 <link rel="import" href="../polymer/polymer.html">
@@ -68,13 +68,14 @@ It should be used in conjunction with xp-pages.
             _refresh: function () {
 
                 // Vars
-                var self       = this,
-                    removable  = self.injected && (!self.content || self.content.toUpperCase() !== self.injected.tagName || (self.lazy && !self.active)),
-                    injectable = self.content && (removable || !self.injected) && (self.active || !self.lazy);
+                var self      = this,
+                    removable = self.injected && (!self.content || self.content.toUpperCase() !== self.injected.tagName || (self.lazy && !self.active)),
+                    element   = self.content && (removable || !self.injected) && (self.active || !self.lazy) && XP.assign(XP.createElement(self.content), {data: self.data}),
+                    parent    = Polymer.dom(self.root);
 
                 // Injecting
-                if (removable) { Polymer.dom(self.root).removeChild(self.injected); }
-                if (injectable) { self._setInjected(Polymer.dom(self.root).appendChild(XP.createElement(self.content, {properties: {data: self.data}}))); }
+                if (removable) { parent.removeChild(self.injected); }
+                if (removable || element) { self._setInjected(element ? parent.appendChild(element) : null); }
 
                 return self;
             },
