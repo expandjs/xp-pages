@@ -163,6 +163,19 @@ A behavior used to add page capabilities on a custom element.
             selector: {
                 notify: true,
                 readOnly: true
+            },
+
+            /**
+             * If set to true, the page is scrollable.
+             *
+             * @attribute scrollable
+             * @type boolean
+             * @default false
+             */
+            scrollable: {
+                reflectToAttribute: true,
+                type: Boolean,
+                value: false
             }
         },
 

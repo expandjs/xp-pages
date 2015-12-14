@@ -36,6 +36,11 @@ A stylesheet used to stylize a page element.
                 display: block;
                 height: 100%;
             }
+
+            :host([scrollable]) .wrapper {
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
         </style>
 
     </template>
