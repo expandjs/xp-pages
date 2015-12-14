@@ -7,57 +7,39 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 -->
 
 <!--
-This element is used to manage pages.
+A custom element used to manage separate pages.
 
-It must be used in conjunction with xp-page.
+It must be used in conjunction with
+[xp-page](http://expandjs.com/elements/xp-page).
 
 @element xp-pages
-@description A custom element used to manage a series of separate pages
-@keywords web app, html5, expandjs, web-components
+@description A custom element used to manage separate pages
+@keywords expandjs, web app, custom elements, web-components
 @group navigation
+@hot
+
 @homepage http://expandjs.com/elements/xp-pages
 @repository https://github.com/ExpandJS/xp-pages
 
-@behavior xp-master-behavior /bower_components/xp-master-behavior/xp-master-behavior.html
-@behavior xp-selected-behavior /bower_components/xp-selected-behavior/xp-selected-behavior.html
+@behavior xp-pages-behavior /bower_components/xp-pages/xp-pages-behavior.html
 
-@dependency polymer Polymer/polymer#^1.1.0
-@dependency expandjs ExpandJS/expandjs#0.9.11
-@dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.0
-@dependency xp-master-behavior ExpandJS/xp-master-behavior#0.9.11
-@dependency xp-selected-behavior ExpandJS/xp-selected-behavior#0.9.11
+@dependency polymer Polymer/polymer#^1.2.0
+@dependency expandjs ExpandJS/expandjs#0.10.0
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../xp-master-behavior/xp-master-behavior.html">
-<link rel="import" href="../xp-selected-behavior/xp-selected-behavior.html">
+<link rel="import" href="xp-pages-behavior.html">
+<link rel="import" href="xp-pages-styles.html">
 <link rel="import" href="xp-page.html">
 
 <dom-module id="xp-pages">
 
-    <template>
+    <template strip-whitespace>
 
-        <style>
-            :host {
-                @apply(--layout-fit);
-                display: block;
-                overflow: hidden;
-            }
+        <style include="xp-pages-styles"></style>
 
-            :host ::content > xp-page {
-                height: 100%;
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
-
-            :host ::content > xp-page:not([active]) {
-                display: none !important;
-            }
-        </style>
-
-        <content id="content"></content>
+        <div class="wrapper"><content></content></div>
 
     </template>
 
@@ -69,50 +51,8 @@ It must be used in conjunction with xp-page.
 
             // BEHAVIORS
             behaviors: [
-                Polymer.XPMasterBehavior,
-                Polymer.XPSelectedBehavior
+                Polymer.XPPagesBehavior
             ],
-
-            /*********************************************************************/
-
-            /**
-             * Closes a page.
-             *
-             * @method close
-             * @param {number | string} index
-             * @returns {Element}
-             */
-            close: function (index) {
-                var self = this, item = self.findItem(index);
-                if (!item || !item.closable) { return null; }
-                return XP.removeChild(Polymer.dom(Polymer.dom(item).parentNode), item);
-            },
-
-            /**
-             * Opens a page.
-             *
-             * @method open
-             * @param {Object} [properties]
-             * @returns {Element}
-             */
-            open: function (properties) {
-                XP.assertArgument(XP.isVoid(properties) || XP.isObject(properties), 1, 'Object');
-                var self = this, item = XP.createElement('xp-page', {properties: XP.assign({}, properties, {closable: true})});
-                return XP.appendChild(Polymer.dom(self), item);
-            },
-
-            /*********************************************************************/
-
-            /**
-             * Returns the slaves map.
-             *
-             * @method _setupSlaves
-             * @returns {Object}
-             * @private
-             */
-            _setupSlaves: function () {
-                return {items: 'xp-page'};
-            },
 
             /*********************************************************************/
 
@@ -120,31 +60,17 @@ It must be used in conjunction with xp-page.
             properties: {
 
                 /**
-                 * The selector used to recognize selectable items.
+                 * The tag used to append new items.
                  *
-                 * @attribute item-selector
+                 * @attribute item-tag
                  * @type string
                  * @default "xp-page"
-                 */
-                itemSelector: {
-                    reflectToAttribute: true,
-                    type: String,
-                    value: 'xp-page'
-                },
-
-                /**
-                 * The selectable items.
-                 *
-                 * @attribute items
-                 * @type Array
-                 * @notifies
                  * @readonly
                  */
-                items: {
-                    notify: true,
+                itemTag: {
                     readOnly: true,
-                    type: Array,
-                    value: function () { return []; }
+                    type: String,
+                    value: 'xp-page'
                 }
             }
         });
