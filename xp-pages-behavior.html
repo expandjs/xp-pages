@@ -107,6 +107,19 @@ A behavior used to add pages capabilities on a custom element.
         properties: {
 
             /**
+             * The selected page's data.
+             *
+             * @attribute data
+             * @type *
+             * @notifies
+             * @readonly
+             */
+            data: {
+                notify: true,
+                readOnly: true
+            },
+
+            /**
              * The selector used to recognize items.
              *
              * @attribute item-selector
@@ -156,6 +169,21 @@ A behavior used to add pages capabilities on a custom element.
                 notify: true,
                 readOnly: true
             }
+        },
+
+        /*********************************************************************/
+
+        // OBSERVER
+        _selectionObserver: function () {
+
+            // Vars
+            var self = this;
+
+            // Setting
+            self._setData((self.selection && self.selection.data) || null);
+
+            // Super
+            Polymer.XPSelectorBehaviorImp._selectionObserver.apply(self, arguments);
         },
 
         /*********************************************************************/
