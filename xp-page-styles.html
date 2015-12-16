@@ -29,6 +29,7 @@ A stylesheet used to stylize a page element.
         <style>
             :host {
                 display: block;
+                overflow: hidden;
                 position: relative;
             }
 
@@ -38,7 +39,7 @@ A stylesheet used to stylize a page element.
                 height: 100%;
             }
 
-            :host([scrollable]) .wrapper {
+            :host(:not([scroll-disabled])) .wrapper {
                 overflow-x: hidden;
                 overflow-y: auto;
             }

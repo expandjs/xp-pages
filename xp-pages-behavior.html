@@ -149,25 +149,9 @@ A behavior used to add pages capabilities on a custom element.
              * @attribute items
              * @type Array
              * @notifies
-             * @readonly
              */
             items: {
-                notify: true,
-                readOnly: true,
                 value: function () { return []; }
-            },
-
-            /**
-             * The pages wrapper.
-             *
-             * @attribute wrapper
-             * @type Element
-             * @notifies
-             * @readonly
-             */
-            wrapper: {
-                notify: true,
-                readOnly: true
             }
         },
 
@@ -198,14 +182,8 @@ A behavior used to add pages capabilities on a custom element.
         // LISTENER
         ready: function () {
 
-            // Vars
-            var self = this;
-
             // Mapping
-            self.slavesMap.items = '.page';
-
-            // Setting
-            self._setWrapper(Polymer.dom(self.root).querySelector('.wrapper'));
+            this.slavesMap.items = '.page';
         }
     };
 

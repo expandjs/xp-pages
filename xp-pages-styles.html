@@ -37,13 +37,11 @@ A stylesheet used to stylize a pages element.
             }
 
             :host .wrapper {
-                bottom: 0;
+                box-sizing: border-box;
                 display: block;
-                left: 0;
+                height: 100%;
                 overflow: hidden;
-                position: absolute;
-                right: 0;
-                top: 0;
+                position: relative;
             }
 
             :host .wrapper ::content > .page {
