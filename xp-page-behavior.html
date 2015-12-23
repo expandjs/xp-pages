@@ -105,11 +105,8 @@ A behavior used to add page capabilities on a custom element.
              *
              * @attribute data
              * @type *
-             * @notifies
              */
-            data: {
-                notify: true
-            },
+            data: {},
 
             /**
              * If set to true, there's nothing injected.
@@ -199,7 +196,10 @@ A behavior used to add page capabilities on a custom element.
                 // Vars
                 var wrapped   = Polymer.dom(self),
                     removable = self.injected && (!self.content || self.content.toUpperCase() !== self.injected.tagName || (self.lazy && !self.active)),
-                    injected  = self.content && (removable || !self.injected) && (self.active || !self.lazy) && XP.assign(document.createElement(self.content), {data: self.data});
+                    injected  = self.content && (removable || !self.injected) && (self.active || !self.lazy) && document.createElement(self.content);
+
+                // Preparing
+                if (injected && XP.isDefined(self.data)) { injected.data = self.data; }
 
                 // Removing
                 if (removable) { wrapped.removeChild(self.injected); }
